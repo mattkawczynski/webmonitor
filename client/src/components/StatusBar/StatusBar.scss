@@ -1,0 +1,44 @@
+.statusbar {
+	height:34px;
+	width:5px;
+	border-radius:4px;
+	cursor:pointer;
+	&__tooltip {
+		opacity: 0;
+		position: relative;
+		z-index: 1;
+		background: rgb(28, 94, 118);
+		border-radius: 8px;
+		padding: 6px;
+		border: 1px solid #322c34;
+		font-size: 14px;
+		font-weight: 300;
+		color: #fff;
+		width: 190px;
+		position: relative;
+		top: 40px;
+		transform: translate(-50%, 0px);
+		text-align: center;
+	}
+
+	&:hover {
+		.statusbar__tooltip {
+			opacity:1;
+		}
+	}
+}
+
+
+
+.tooltip {
+	background: rgb(28, 94, 118);
+    border-radius: 8px;
+	padding:6px;
+	border:1px solid #322c34;
+	&__label {
+		font-size:14px;
+		font-weight:300;
+		color:#fff
+
+	}
+}

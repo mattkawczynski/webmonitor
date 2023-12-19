@@ -1,0 +1,170 @@
+.monitoring {
+
+	&__item {
+		
+	}
+	&__header {
+		display:flex;
+		margin-bottom:20px;
+		align-items: center;
+	}
+	&__status-icon {
+		height:45px;
+		width:45px;
+		border-radius:50%;
+		margin-right:20px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		&:after {
+			content:'';
+			display:block;
+			height:16px;
+			width:16px;
+			border-radius:50%;
+		}
+		&--success {
+			background: #1d3840;
+			&:after {
+				background:var(--success);
+			}
+		}
+		&--alert {
+			background: #322c34;
+			&:after {
+				background:var(--alert);
+			}
+		}
+	}
+	&__url {
+		font-size:30px;
+		font-weight:700;
+		color:#fff;
+		letter-spacing:-0.25px;
+		margin-bottom:5px;
+	}
+	&__sub-info {
+		display: flex;
+		gap: 5px;
+		align-items: center;
+	}
+	&__status-text {
+		font-size:14px;
+		font-weight:300;
+
+		&--success {
+			color:var(--success)
+		}
+		&--alert {
+			color:var(--alert)
+		}
+	}
+	&__dot-divider {
+		height: 3px;
+		width: 3px;
+		background: #fff;
+		border-radius: 50%;
+	}
+	&__refresh-rate {
+		font-size:14px;
+		font-weight:300;
+	}
+
+	&__navigation {
+		margin:20px 0;
+		display:flex;
+		gap:15px;
+
+		&-item {
+			font-size: 14px;
+			display: flex;	
+			font-weight: 300;
+			align-items: center;
+			gap: 5px;
+		}
+	}
+
+
+	&__body {
+		display:flex;
+		gap: 25px;
+		flex-wrap: wrap;
+	}
+	&__row {
+		display:flex;
+		width:100%;
+		gap: 25px;
+	}
+	&__card {
+		padding:25px 20px;
+		background:#282f3f;
+		border-radius:8px;
+		width:100%;
+
+		&--3 {
+			width:33.3%;
+		}
+	}
+
+	&__bottom-margin {
+		margin-bottom:20px;
+	}
+	&__large-text {
+		font-size:22px;
+		font-weight:600;
+		letter-spacing:-0.25px;
+	}
+	&__small-text {
+		font-size:16px;
+		font-weight:200;
+	}
+
+}
+.statusbar__container {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+table {
+	width:100%;
+}
+
+:root {
+	--secondary-color: rgb(61, 68, 73);
+	--highlight-color: #212838;
+	--table-border-color: var(--secondary-color);
+	--table-hover-cell-color: var(--highlight-color);
+	--table-even-row-color: var(--secondary-color);
+}
+
+.datatable {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.datatable,
+.datatable th,
+.datatable td {
+	padding: 12px 12px;
+}
+
+.datatable th {
+	font-weight: bolder;
+	text-align: left;
+	border-bottom: solid 1px var(--table-border-color);
+}
+
+.datatable td {
+	border-bottom: solid 1px var(--table-border-color);
+}
+
+.datatable tbody tr:nth-child(even) {
+	background-color: var(--table-even-row-color);
+}
+
+.datatable tbody tr:hover {
+	background-color: var(--table-hover-cell-color);
+}

@@ -1,0 +1,21 @@
+.connection {
+    font-size: 13px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    margin-bottom:4px;
+    &--success {
+        color:var(--success)
+    }
+    &--alert {
+        color:var(--alert)
+    }
+    &--warning {
+        color:var(--warning)
+    }
+
+    span {
+        margin-right:5px;
+        font-size:17px;
+    }
+}

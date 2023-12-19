@@ -1,0 +1,13 @@
+
+.tooltip {
+	background: rgb(28, 94, 118);
+    border-radius: 8px;
+	padding:6px;
+	border:1px solid #322c34;
+	&__label {
+		font-size:14px;
+		font-weight:300;
+		color:#fff
+
+	}
+}

@@ -1,0 +1,17 @@
+.auctions-supported {
+	padding:20px 0;
+	&__item {
+		display:inline-block;
+		margin:0 35px;
+	}
+
+	&__checkmark {
+		display:inline-block;
+		vertical-align: middle;
+		margin-right:20px;
+	}
+
+	&__name {
+		display:inline-block;
+	}
+}
