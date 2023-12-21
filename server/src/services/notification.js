@@ -6,7 +6,8 @@ const logger = require('./logger');
 
 mail.setApiKey(process.env.SENGRID_API_KEY);
 
-let emailClient; // Declare emailClient variable outside the if statement
+let emailClient; 
+
 if (process.env.NODE_ENV.trim() === 'development') {
     emailClient = nodemailer.createTransport({
         host: '0.0.0.0',
@@ -17,7 +18,6 @@ if (process.env.NODE_ENV.trim() === 'development') {
         ignoreTLS: true,
     });
     const emailServer = new MailDev({
-        // Specify MailDev options if needed
     });
     emailServer.listen();
 }
@@ -29,7 +29,7 @@ const sendEmail = async (subject, body, urlEntryId) => {
     if(urlEntry != null) {
         const msg = {
             to: [process.env.EMAIL_RECIPIENTS],
-            from: 'test@test.pl',
+            from: [process.env.EMAIL_FROM_ADDRESS],
             subject: subject,
             text: body,
         };
@@ -48,18 +48,40 @@ const sendEmail = async (subject, body, urlEntryId) => {
                 logger.info(`The e-mail has been already sent. Not sending another e-mail until the resource health changes.`);
             }
         } else {
-            if (urlEntry.sendNotification == true) {
-                mail.send(msg)
-                .then(async () => {
-                    
-                    await UrlEntry.findOneAndUpdate({_id: urlEntryId}, {lastNotificationDate: new Date, sendNotification: false  })
-                    logger.info(`Updated lastNotificationDate to ${new Date} for id ${urlEntryId}`);
-                    logger.info(`Succesfully sent e-mail to ${to}`);
-                })
-                .catch((error) => logger.error(error));
+            // this flag is real ugly, will refactor
+            if (process.env.USE_SENDGRID === 'false' ) {
+                emailClient = nodemailer.createTransport({
+                    host: process.env.EMAIL_HOST,
+                    port: process.env.EMAIL_PORT,
+                    secure: true,
+                    auth: {
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASS,
+                    },
+                });
+                emailClient.sendMail(msg, async(error) => {
+                    if (error) {
+                        logger.error(error);
+                    } else {
+                        await UrlEntry.findOneAndUpdate({_id: urlEntryId}, {lastNotificationDate: new Date, sendNotification: false  })
+                        logger.info(`Updated lastNotificationDate to ${new Date} for id ${urlEntryId}`);
+                        logger.info(`Succesfully sent e-mail to ${[process.env.EMAIL_RECIPIENTS]}`);
+                    }
+                });
             } else {
-                logger.info(`The e-mail has been already sent. Not sending another e-mail until the resource health changes.`);
+                if (urlEntry.sendNotification == true) {
+                    mail.send(msg)
+                    .then(async () => {
+                        await UrlEntry.findOneAndUpdate({_id: urlEntryId}, {lastNotificationDate: new Date, sendNotification: false  })
+                        logger.info(`Updated lastNotificationDate to ${new Date} for id ${urlEntryId}`);
+                        logger.info(`Succesfully sent e-mail to ${to}`);
+                    })
+                    .catch((error) => logger.error(error));
+                } else {
+                    logger.info(`The e-mail has been already sent. Not sending another e-mail until the resource health changes.`);
+                }
             }
+            
         }
     }
     
