@@ -8,11 +8,11 @@ const logger = require('./services/logger');
 const http = require('http');
 const socketIO = require('socket.io');
 
+require('dotenv').config();
+
 const middlewares = require('./middlewares');
 const urls = require('./api/urls');
 const cronSchedule = require('./jobs/cronJob')
-
-require('dotenv').config();
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -44,13 +44,11 @@ const authenticate = (req, res, next) => {
   }
   next();
 };
-
 app.get('/', (req, res) => {
   res.json({
     message: 'Hello',
   });
 });
-
 app.use(authenticate);
 app.use('/api/urls', urls);
 
