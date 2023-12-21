@@ -1,4 +1,5 @@
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -13,6 +14,11 @@ const cronSchedule = require('./jobs/cronJob')
 
 require('dotenv').config();
 
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 100,
+});
+
 const app = express();
 mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.DATABASE_URL, {
@@ -23,6 +29,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
 app.use(morgan('common'));
 app.use(helmet());
+app.use(limiter);
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
 }));
