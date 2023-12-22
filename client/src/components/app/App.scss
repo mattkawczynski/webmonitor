@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+/* Main CSS file */
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -13,7 +14,7 @@
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
+html, body, div, span, applet, object, iframe, 
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
@@ -61,7 +62,8 @@ body {
     background-color: #212838;
     color:#fff;
     font-family: 'Work Sans', sans-serif;
-
+    margin: 0;
+    overflow: hidden;
 }
 :root {
     --success:#00ffa2;
@@ -69,20 +71,22 @@ body {
     --warning:#ffde00;
 }
 #root {
-    display: grid;
-    grid-template-columns: clamp(300px, 25vw, 13em) 1fr;
-    grid-template-areas: "nav main";
     min-height: 100vh;
+    display: grid;
+    grid-template-columns: 300px calc(100% - 300px);
+    grid-template-rows: 30px 100%;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
-
-
-.page__main {
-    grid-area: main;
-}
-
 
 main {
     padding:40px;
+    grid-area: 2 / 2 / 3 / 4;
+    width: calc(100% - 81px);
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #2d3342 #2f3647;
 }
 
 .recharts-layer text {
@@ -92,4 +96,21 @@ main {
 }
 .recharts-cartesian-axis-line, .recharts-cartesian-axis-tick-line {
     display:none
+}
+
+.nav {
+    grid-area: 2 / 1 / 3 / 2;
+}
+  
+main::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+  
+main::-webkit-scrollbar-track {
+    background-color: #2f3647; /* Track color */
+}
+  
+main::-webkit-scrollbar-thumb {
+    background-color: #2d3342; /* Thumb color */
+    border-radius: 3px; /* Rounded corners */
 }

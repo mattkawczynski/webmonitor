@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   HashRouter,
   Routes,
-  Route,
-  Link,
+  Route
 } from "react-router-dom";
 import { Header } from '../../components';
+import { Titlebar  } from '../../components/Titlebar';
 import { Monitoring, Incidents, Incident, Details } from '../../Domain'
 
 
@@ -14,6 +14,8 @@ import './App.scss'
 function App() {
   return (
     <HashRouter>
+
+      <Titlebar />
       <Header />
       <main>
         
