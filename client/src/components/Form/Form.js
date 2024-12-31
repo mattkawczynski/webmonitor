@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { submitUrl } from '../../API';
 
-import './Form.scss';
 const validUrlRegex = RegExp(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/i);
 
 const validateForm = (errors) => {
@@ -68,24 +67,24 @@ class Form extends Component {
     const {errors} = this.state;
     const {isFormValid} = this.state;
     return (
-        <div className='form'>
-          <form onSubmit={this.handleSubmit} noValidate>
-            <div className='input-container'>
-              <input className="form__input" type='text' name='url' onChange={this.handleChange} placeholder="url" noValidate />
-              <label className="form__label" htmlFor="url">Website URL</label>
-              {errors.url.length > 0 && 
-                <span className='form__error'>{errors.url}</span>}
-            </div>
-            <div className='submit'>
-              <button>Monit</button>
-            </div>
-            <div className="form__validation">
-                {isFormValid === false &&
-                  <div className="form__error form__error--centered">The url seems to be invalid.</div>
-                }
-              </div>
-          </form>
-        </div>
+      <div className="form">
+        <form onSubmit={this.handleSubmit} noValidate>
+          <div className="input-container">
+            <input className="form__input" type="text" name="url" onChange={this.handleChange} placeholder="url" noValidate />
+            <label className="form__label" htmlFor="url">Website URL</label>
+            {errors.url.length > 0 && 
+              <span className="form__error">{errors.url}</span>}
+          </div>
+          <div className="submit">
+            <button>Monit</button>
+          </div>
+          <div className="form__validation">
+            {isFormValid === false &&
+              <div className="form__error form__error--centered">The url seems to be invalid.</div>
+            }
+          </div>
+        </form>
+      </div>
     );
   }
 }

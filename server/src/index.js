@@ -37,9 +37,18 @@ app.use(express.json());
 
 const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization || req.query.token;
-  const authToken = process.env.AUTH_TOKEN;
-  if (!authHeader || authHeader !== authToken) {
+  
+  // Check if the Authorization header exists and starts with 'Bearer'
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     logger.error(`Unauthorized request: ${req.originalUrl}`)
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const authToken = authHeader.split(' ')[1]; // Get token after 'Bearer'
+  
+  // Compare with the stored token in your environment variables
+  if (authToken !== process.env.AUTH_TOKEN) {
+    logger.error(`Unauthorized request: Invalid token`);
     return res.status(401).json({ message: "Unauthorized" });
   }
   next();
@@ -63,12 +72,15 @@ app.use(middlewares.errorHandler);
 io.use((socket, next) => {
   const token = socket.handshake.headers.authorization;
 
-  if (!token) {
+  console.log('token',token)
+  if (!token || !token.startsWith('Bearer ')) {
     logger.error('Unauthorized connection attempt');
     return next(new Error('Unauthorized'));
   }
 
-  if (token !== process.env.AUTH_TOKEN) {
+  const authToken = token.split(' ')[1]; // Extract token after 'Bearer'
+
+  if (authToken !== process.env.AUTH_TOKEN) {
     logger.error('Invalid token for websocket connection');
     return next(new Error('Invalid token'));
   }

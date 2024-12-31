@@ -1,5 +1,5 @@
 {
-  "name": "webmonitor-client",
+  "name": "WebMonitoring Service",
   "version": "1.0.0",
   "description": "",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.dev.config.js --mode development",
     "build": "cross-env NODE_ENV=production webpack --config webpack.build.config.js --mode production",
     "package": "npm run build",
-    "postpackage": "electron-packager ./ --out=./builds"
+    "postpackage": "electron-packager ./ --out=./builds --overwrite --icon=./src/assets/icon.png"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -42,7 +42,7 @@
     "babel-loader": "^8.2.5",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
-    "electron": "^19.0.1",
+    "electron": "^19.1.9",
     "electron-devtools-installer": "^3.2.0",
     "electron-packager": "^15.5.1",
     "file-loader": "^6.2.0",

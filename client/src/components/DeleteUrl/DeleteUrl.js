@@ -15,7 +15,7 @@ const DeleteUrl = ({ id, handleRestRefresh }) => {
   return (
     <a onClick={() => handleDeleteUrl(id)}>
       <span className="material-symbols-outlined">
-        fmd_bad
+        remove_circle
       </span>
       Delete with data
     </a>
