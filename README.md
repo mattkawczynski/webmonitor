@@ -20,8 +20,10 @@ Built using:
 
 ## Screenshots
 
-![Dashboard](mock_dashboard.png)
-![Add URL](mock_add_url.png)
+![Monitoring page](monitoring.png)
+![Incidents page](incidents.png)
+![URL incidents view](page_incidents.png)
+![Single URL view](page.png)
 
 ## Installation and Setup
 
@@ -129,7 +131,7 @@ Feel free to open issues or submit pull requests for new features or bug fixes.
 2. Improve graph rendering performance for the dashboard.
 3. Enhance error handling and validation for user inputs in the Settings page.
 4. Implement testing for critical components to improve reliability.
-5. Add support for custom notification methods (e.g., Slack, SMS).
+5. Add support for custom notification methods (e.g., Slack, SMS, Discord).
 6. Improve the onboarding process for first-time users.
 
 ## License
