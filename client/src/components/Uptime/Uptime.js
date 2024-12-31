@@ -1,44 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import {  getUptime  } from '../../API';
+import { getUptime } from '../../API';
 import io from 'socket.io-client';
-const Uptime = ({id}) => {
-  const [urlUptime, setUrlUptime] = useState([]);
-	useEffect(() => {
-		let isMounted = true;
-		const socket = io(`${process.env.API_ENDPOINT}`, {
-			extraHeaders: {
-				Authorization: `${process.env.AUTH_TOKEN}`,
-			},
-		});
+import getConfig from '../../utils/getConfig';
 
-		const fetchData = async () => {
-      const urlUptime = await getUptime(id);
-      if (isMounted) {
-        setUrlUptime(urlUptime);
-      }
-    };
-		fetchData();
+const Uptime = ({ id }) => {
+    const [config, setConfig] = useState(null);
+    const [urlUptime, setUrlUptime] = useState([]);
 
-		socket.on('update', async (data) => {
-      fetchData();
-    });
+    useEffect(() => {
+        const initializeConfig = async () => {
+            try {
+                const configData = await getConfig();
+                setConfig(configData);
+            } catch (error) {
+                console.error('Error fetching configuration:', error);
+            }
+        };
+        initializeConfig();
+    }, []);
 
-		return () => {
-      isMounted = false;
-      socket.disconnect();
-    };
-	}, [id]);
+    useEffect(() => {
+        if (!config) return;
 
-  return (
-    <span>
-      {urlUptime.length > 0 && (
-        <span>
-          {urlUptime[urlUptime.length - 1].uptime}%
-        </span>
-      )}
-    </span>
-  );
- 
+        let isMounted = true;
+        const socket = io(config.serverUrl, {
+          extraHeaders: { Authorization: `Bearer ${config.authToken}` },
+        });
+
+        const fetchUptime = async () => {
+            try {
+                const uptimeData = await getUptime(id);
+                if (isMounted) setUrlUptime(uptimeData);
+            } catch (error) {
+                console.error('Error fetching uptime:', error);
+            }
+        };
+
+        fetchUptime();
+
+        socket.on('update', fetchUptime);
+
+        return () => {
+            isMounted = false;
+            socket.disconnect();
+        };
+    }, [config, id]);
+
+    const latestUptime = urlUptime.length > 0 ? urlUptime[urlUptime.length - 1].uptime : null;
+
+    return <span>{latestUptime !== null ? `${latestUptime}%` : 'Loading...'}</span>;
 };
 
 export default Uptime;

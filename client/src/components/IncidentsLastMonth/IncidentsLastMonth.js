@@ -1,44 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import {  listUrlAggregatedHealthLast30Days  } from '../../API';
+import { listUrlAggregatedHealthLast30Days } from '../../API';
 import io from 'socket.io-client';
-const IncidentsLastMonth = ({id}) => {
-  const [incidentsInLastMonth, setIncidentsInLastMonth] = useState([]);
-	useEffect(() => {
-		let isMounted = true;
-		const socket = io(`${process.env.API_ENDPOINT}`, {
-			extraHeaders: {
-				Authorization: `${process.env.AUTH_TOKEN}`,
-			},
-		});
+import getConfig from '../../utils/getConfig';
 
-		const fetchData = async () => {
-      const incidentsInLastMonth = await listUrlAggregatedHealthLast30Days(id);
-      if (isMounted) {
-        setIncidentsInLastMonth(incidentsInLastMonth);
-      }
-    };
-		fetchData();
+const IncidentsLastMonth = ({ id }) => {
+    const [config, setConfig] = useState(null);
+    const [incidentsInLastMonth, setIncidentsInLastMonth] = useState([]);
 
-		socket.on('update', async (data) => {
-      fetchData();
-    });
+    useEffect(() => {
+        const initializeConfig = async () => {
+            try {
+                const configData = await getConfig();
+                setConfig(configData);
+            } catch (error) {
+                console.error('Error fetching configuration:', error);
+            }
+        };
+        initializeConfig();
+    }, []);
 
-		return () => {
-      isMounted = false;
-      socket.disconnect();
-    };
-	}, [id]);
+    useEffect(() => {
+        if (!config) return;
 
-  return (
-    <span>
-      {incidentsInLastMonth.length > 0 && (
-        <span>
-          {incidentsInLastMonth[incidentsInLastMonth.length - 1].incidentCount}
-        </span>
-      )}
-    </span>
-  );
- 
+        let isMounted = true;
+        const socket = io(config.serverUrl, {
+          extraHeaders: { Authorization: `Bearer ${config.authToken}` },
+        });
+
+        const fetchIncidents = async () => {
+            try {
+                const data = await listUrlAggregatedHealthLast30Days(id);
+                if (isMounted) setIncidentsInLastMonth(data);
+            } catch (error) {
+                console.error('Error fetching incidents:', error);
+            }
+        };
+
+        fetchIncidents();
+
+        socket.on('update', fetchIncidents);
+
+        return () => {
+            isMounted = false;
+            socket.disconnect();
+        };
+    }, [config, id]);
+
+    const latestIncidentCount =
+        incidentsInLastMonth.length > 0
+            ? incidentsInLastMonth[incidentsInLastMonth.length - 1].incidentCount
+            : 0;
+
+    return <span>{latestIncidentCount}</span>;
 };
 
 export default IncidentsLastMonth;

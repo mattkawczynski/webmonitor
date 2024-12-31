@@ -63,7 +63,6 @@ const Header = () => {
           </li>
           <li className="nav__item">
             <NavLink to="incidents">
-              
               <span className="material-symbols-outlined">
                 fmd_bad
               </span>
@@ -77,6 +76,15 @@ const Header = () => {
               </span>
               Add new
             </a>
+          </li>
+
+          <li className="nav__item nav__item--bottom">
+            <NavLink to="config">
+              <span className="material-symbols-outlined">
+                settings
+              </span>
+              Settings
+            </NavLink>
           </li>
         </ul>
       </div>

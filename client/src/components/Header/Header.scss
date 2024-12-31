@@ -6,6 +6,7 @@
     &__container {
         position:fixed;
         width:280px;
+        height:100%;
     }
     &__status {
         padding: 0 17px;
@@ -14,13 +15,14 @@
         display: flex;
         flex-direction: column;
         list-style:none;
+        height: calc(100% - 100px);
     }
 
     &__item {
         margin:2px 0;
         a {
             cursor:pointer;
-            color:#fff;
+            color:hsl(0, 0%, 100%);
             text-decoration:none;
             transition: all 0.3s ease;
             font-size:17px;
@@ -43,6 +45,10 @@
                 background:#212838;
                 font-weight:600;
             }
+        }
+
+        &--bottom {
+            margin-top: auto;
         }
     }
 }

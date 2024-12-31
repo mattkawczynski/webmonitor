@@ -7,9 +7,21 @@ import { StatusBar } from '../../components/StatusBar';
 import { IncidentsLastMonth } from '../../components/IncidentsLastMonth';
 
 import io from 'socket.io-client';
+import getConfig from '../../utils/getConfig';
 import './Incident.scss'
 
 const Incident = () => {
+	const [config, setConfig] = useState({ serverUrl: '', authToken: '' });
+
+	useEffect(() => {
+		const fetchConfig = async () => {
+			const configData = await getConfig();
+			setConfig(configData);
+		};
+		fetchConfig();
+	}, []);
+	const { serverUrl, authToken } = config;
+
 	const [urlHealth, setUrlHealth] = useState([]);
 	const [urlStatuses, setUrlStatuses] = useState([]);
 	const [urlIncidents, setUrlIncidents] = useState([]);
@@ -17,10 +29,8 @@ const Incident = () => {
 
 	useEffect(() => {
 		let isMounted = true;
-		const socket = io(`${process.env.API_ENDPOINT}`, {
-			extraHeaders: {
-				Authorization: `${process.env.AUTH_TOKEN}`,
-			},
+		const socket = io(`${serverUrl}`, {
+			extraHeaders: { Authorization: `Bearer ${authToken}` },
 		});
 
 		const fetchData = async () => {
