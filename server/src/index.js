@@ -24,7 +24,9 @@ mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  user: process.env.DATABASE_USER,
+  pass: process.env.DATABASE_PASSWORD
 });
 
 app.use(morgan('common'));
@@ -94,7 +96,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 61234;
 
 server.listen(port, () => {
   logger.info(`The app is active and listening on port ${port}`);
