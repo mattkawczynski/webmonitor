@@ -64,13 +64,12 @@ function createMainWindow() {
     },
     darkTheme: true,
     webPreferences: {
-      devTools: dev,
+      devTools: true,
       nodeIntegration: true,
       contextIsolation: false,
     },
     show: false,
   });
-
   if (dev) {
     const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
     installExtension(REACT_DEVELOPER_TOOLS)

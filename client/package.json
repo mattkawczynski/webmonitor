@@ -1,7 +1,7 @@
 {
   "name": "WebMonitoring Service",
   "version": "1.0.0",
-  "description": "",
+  "description": "An Electron app for monitoring services",
   "license": "MIT",
   "private": false,
   "author": "Matt Kawczynski",
@@ -19,7 +19,7 @@
     "start": "cross-env NODE_ENV=development webpack serve --hot --host 0.0.0.0 --config=./webpack.dev.config.js --mode development",
     "build": "cross-env NODE_ENV=production webpack --config webpack.build.config.js --mode production",
     "package": "npm run build",
-    "postpackage": "electron-packager ./ --out=./builds --overwrite --icon=./src/assets/icon.png"
+    "postpackage": "electron-packager ./ --out=./builds --overwrite --icon=./src/assets/icon.png --verbose"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

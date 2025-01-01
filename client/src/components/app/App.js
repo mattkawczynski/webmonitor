@@ -18,7 +18,7 @@ function App() {
       <main>
         <Routes>
           <Route path="" element={<Monitoring />} />
-          <Route path="config" element={<Config />} />
+          <Route path="/config" element={<Config />} />
           <Route path="monitoring" element={<Monitoring />} />
           <Route path="incidents" element={<Incidents />} />
           <Route path="/incident/:_id" element={<Incident />} />

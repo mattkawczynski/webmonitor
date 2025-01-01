@@ -101,7 +101,6 @@ const Monitoring = () => {
         };
 
         fetchData();
-
         socket.on('update', fetchData);
 
         return () => {
@@ -124,25 +123,31 @@ const Monitoring = () => {
     return (
         <div className="row">
             <div className="monitoring">
-                {urlEntries.map((entry) => (
-                    <div key={entry._id} className="monitoring__item">
-                        <MonitoringHeader url={entry.url} urlHealth={entry.urlHealth} />
-                        <MonitoringNavigation id={entry._id} handleRestRefresh={handleRestRefresh} />
-                        <div className="monitoring__body">
-                            <div className="monitoring__row">
-                                <InfoCard title="Monitor is up for" content={formatDate(entry.createdAt)} />
-                                <InfoCard title="Last checked" content={<Moment fromNow>{entry.updatedAt}</Moment>} />
-                                <InfoCard title="Total incidents" content={entry.incidentCount} />
-                                <InfoCard title="Incidents in last 30 days" content={<IncidentsLastMonth id={entry._id} />} />
-                            </div>
-                            <div className="monitoring__row">
-                                <InfoCard title="Latest response time" content={`${entry.latestResponseTime} ms`} />
-                                <InfoCard title="Number of URL checks" content={entry.hitCount} />
-                                <InfoCard title="Uptime" content={<Uptime id={entry._id} />} />
+                {(urlEntries && urlEntries.length > 0) ? (
+                    urlEntries.map((entry) => (
+                        <div key={entry._id} className="monitoring__item">
+                            <MonitoringHeader url={entry.url} urlHealth={entry.urlHealth} />
+                            <MonitoringNavigation id={entry._id} handleRestRefresh={handleRestRefresh} />
+                            <div className="monitoring__body">
+                                <div className="monitoring__row">
+                                    <InfoCard title="Monitor is up for" content={formatDate(entry.createdAt)} />
+                                    <InfoCard title="Last checked" content={<Moment fromNow>{entry.updatedAt}</Moment>} />
+                                    <InfoCard title="Total incidents" content={entry.incidentCount} />
+                                    <InfoCard title="Incidents in last 30 days" content={<IncidentsLastMonth id={entry._id} />} />
+                                </div>
+                                <div className="monitoring__row">
+                                    <InfoCard title="Latest response time" content={`${entry.latestResponseTime} ms`} />
+                                    <InfoCard title="Number of URL checks" content={entry.hitCount} />
+                                    <InfoCard title="Uptime" content={<Uptime id={entry._id} />} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                     ))
+                    ) : (
+                      <div className="monitoring__empty">
+                        <p>No monitoring entries found. Add a new entry to start monitoring.</p>
+                      </div>
+                    )}
             </div>
         </div>
     );

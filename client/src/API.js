@@ -2,8 +2,10 @@ import { ipcRenderer } from 'electron';
 import { useNavigate } from 'react-router-dom';
 
 const handleError = (error) => {
+	//const navigate = useNavigate();
+	//navigate('/config');
 	console.error('API Error:', error);
-	window.location.href = '/#/config'
+	//window.location.href = '/#/config'
 };
 
 const getConfig = async () => {
@@ -72,6 +74,7 @@ export async function submitUrl(payload) {
 	try {
 	  const { serverUrl, authToken } = await getConfig();
 	  if (!serverUrl || !authToken) {
+		window.location.href = '#/config'
 		throw new Error('Server URL or Auth Token is missing');
 	  }
   

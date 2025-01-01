@@ -16,7 +16,7 @@ const cronSchedule = require('./jobs/cronJob')
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 100,
+  max: 500,
 });
 
 const app = express();
@@ -72,7 +72,6 @@ app.use(middlewares.errorHandler);
 io.use((socket, next) => {
   const token = socket.handshake.headers.authorization;
 
-  console.log('token',token)
   if (!token || !token.startsWith('Bearer ')) {
     logger.error('Unauthorized connection attempt');
     return next(new Error('Unauthorized'));

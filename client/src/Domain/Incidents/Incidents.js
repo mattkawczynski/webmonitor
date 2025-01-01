@@ -35,8 +35,6 @@ const Incidents = () => {
 
 	useEffect(() => {
 		const { serverUrl, authToken } = config;
-		console.log('xxxxxx',serverUrl)
-		// Ensure serverUrl and authToken are available before connecting
 		if (!serverUrl || !authToken) return;
 
 		const newSocket = io(serverUrl, {
